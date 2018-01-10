@@ -1,0 +1,81 @@
+.right-click-message {
+    padding-top: 32px;
+}
+
+[class^="typeWindows-"] {
+    margin-top: 0;
+    padding-top: 4px;
+}
+
+[alt=":taco:"] {
+    animation-name: spin;
+    animation-duration: 4000ms;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
+}
+
+[alt=":taco:"] {
+    width: 100px !important;
+    height: 100px !important;
+}
+
+[alt=":thonk:"] {
+    width: 50px !important;
+    height: 50px !important;
+}
+
+@keyframes spin {
+    from {transform:rotate(0deg);}
+    to {transform:rotate(360deg);}
+}
+
+#translate {
+    padding: 0;
+    padding-top: 2px !important;
+    z-index: 10000;
+    border-bottom: none;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+}
+
+.custom-item-group {
+    border-top-style: solid;
+    border-color: hsla(0, 0%, 96%, .08);
+
+    -webkit-box-shadow: 0 0 1px rgba(0, 0, 0, .82), 0 1px 4px rgba(0, 0, 0, .1);
+    background: #282b30;
+    box-shadow: 0 0 1px rgba(0, 0, 0, .82), 0 1px 4px rgba(0, 0, 0, .1);
+}
+
+.custom-context-menu {
+    -webkit-box-shadow: 0 1px 4px rgba(0, 0, 0, .2);
+    border-radius: 5px;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, .2);
+    cursor: default;
+    display: inline-block;
+    position: fixed;
+    width: 170px;
+    z-index: 1005;
+}
+
+.custom-context-menu .item2 {
+    -webkit-box-sizing: border-box;
+    border-radius: 5px;
+    box-sizing: border-box;
+    color: #99aab5;
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 16px;
+    margin: 2px 0;
+    overflow: hidden;
+    padding: 6px 9px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 100%;
+    color: hsla(0, 0%, 100%, .6);
+}
+
+.custom-context-menu .item2:hover {
+    background: #25282d;
+    color: #fff
+}
