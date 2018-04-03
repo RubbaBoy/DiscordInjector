@@ -62,7 +62,6 @@ public class Main {
         }).start();
 
         p.waitFor();
-
         System.out.println("Complete.");
 
         File discordMain = new File(System.getProperty("user.home"), "AppData\\Roaming\\discord");

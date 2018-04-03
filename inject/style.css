@@ -19,7 +19,7 @@
     height: 100px !important;
 }
 
-[alt=":thonk:"] {
+[alt^=":thonk"] {
     width: 50px !important;
     height: 50px !important;
 }

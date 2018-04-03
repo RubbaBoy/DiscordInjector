@@ -466,7 +466,7 @@ var observeDOM = (function () {
                         let arr = mutations[i2].addedNodes;
                         for (let i = 0; i < arr.length; i++) {
                             for (let i3 = 0; i3 < otherObj.length; i3++) {
-                                if (arr[i] && arr[i].classList && arr[i].classList.contains(otherObj[i3])) {
+                                if (arr[i] && arr[i].classList && containsStarting(arr[i].classList, otherObj[i3])) {
                                     added(arr[i]);
                                 }
                             }
@@ -477,7 +477,7 @@ var observeDOM = (function () {
                         let arr2 = mutations[i2].removedNodes;
                         for (let i = 0; i < arr2.length; i++) {
                             for (let i3 = 0; i3 < otherObj.length; i3++) {
-                                if (arr2[i] && arr2[i].classList && arr2[i].classList.contains(otherObj[i3])) {
+                                if (arr2[i] && arr2[i].classList && containsStarting(arr2[i].classList, otherObj[i3])) {
                                     removed(arr2[i]);
                                 }
                             }
@@ -490,6 +490,24 @@ var observeDOM = (function () {
         }
     };
 })();
+
+function containsStarting(list, starting) {
+    // console.log("========================");
+    // console.log(list);
+    // console.log(starting);
+    // console.log("========================");
+    for (let clazz of Array.from(list)) {
+        // console.log(clazz.toString());
+        if (clazz.toString().startsWith(starting)) {
+            // console.log("true");
+            return true;
+        }
+    }
+
+    // console.log("false");
+
+    return false;
+}
 
 /*
     Gets the last element clicked when right clicking stuff
@@ -571,13 +589,15 @@ var lastRightClicked = null;
 var adding = false;
 
 // Observe a specific DOM element:
-observeDOM(document.getElementById("app-mount"), ["context-menu"], function (removed) { /* Executed when element is removed */
+observeDOM(document.getElementById("app-mount"), ["contextMenu"], function (removed) { /* Executed when element is removed */
     if (lastRightClicked === removed) {
         let transl = document.getElementById("translate");
         transl.style.display = "none";
     }
 }, function (added) { /* Executed when element is removed */
-    var rightClick = document.getElementsByClassName('context-menu')[0];
+    var rightClick = document.querySelectorAll('[class^=contextMenu]')[0];
+    console.log(rightClick);
+    // document.querySelectorAll("[class^=page]")
 
     if (rightClick !== null && rightClick !== undefined) {
         log.tomato("User is right clicking!");
@@ -605,12 +625,24 @@ observeDOM(document.getElementById("app-mount"), ["context-menu"], function (rem
     }
 });
 
+let yandexKey = "* Your Yandex API key (They are free) *";
+
+var langs = "";
+
+httpGetAsync("https://translate.yandex.net/api/v1.5/tr.json/getLangs?key=" + yandexKey + "&ui=en", function (langsData) {
+    console.log(JSON.parse(langsData));
+    console.log(JSON.parse(langsData).langs);
+    for (let lang in JSON.parse(langsData).langs) {
+        langs += lang + ",";
+    }
+
+    langs = langs.substr(0, langs.length - 1);
+});
 
 function translateText(text, callback) {
-    let yandexKey = "* Your Yandex API key (They are free) *";
     let date = new Date();
     let startTime = date.getTime();
-    httpGetAsync("https://translate.yandex.net/api/v1.5/tr.json/detect?key=" + yandexKey + "&hint=sv&text=" + encodeURIComponent(text), function (langJSON) {
+    httpGetAsync("https://translate.yandex.net/api/v1.5/tr.json/detect?key=" + yandexKey + "&hint=" + langs + "&text=" + encodeURIComponent(text), function (langJSON) {
         let lang = JSON.parse(langJSON).lang;
 
         log.blue("Got language: " + lang);
